@@ -1,2 +1,3 @@
-# good-bytes-recipe-analysis
-Data science project analyzing recipe ratings - DSC 259R 
+# What Makes a 5-Star Recipe?
+
+**By:** Mahir Oza, Xiaolong Yu, Donald Yu, Ali Karim
