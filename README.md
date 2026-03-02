@@ -128,7 +128,7 @@ We chose `average_rating` as our response variable because understanding what re
 
 **Evaluation Metric:** We are using **RMSE** (Root Mean Squared Error) because it is interpretable in rating points and penalizes large prediction errors more heavily than MAE, which is important when predicting ratings on a 1-to-5 scale.
 
-**Time of Prediction:** At the time a recipe is first posted, we know its attributes (cooking time, steps, ingredients, nutritional info, tags) but have no user feedback yet. Therefore, we only use features available at the time of submission — minutes, n_steps, n_ingredients, calories, protein, sugar, total_fat, and other recipe characteristics — and exclude any user interaction data like ratings or reviews.
+**Time of Prediction:** At the time a recipe is first posted, we know its attributes (cooking time, steps, ingredients, nutritional info, tags) but have no user feedback yet. Therefore, we only use features available at the time of submission: minutes, n_steps, n_ingredients, calories, protein, sugar, total_fat, and other recipe characteristics, and exclude any user interaction data like ratings or reviews.
 
 ---
 
