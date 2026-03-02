@@ -146,9 +146,9 @@ We do not consider this a good model. The R² of 0.0015 means the model explains
 
 ## Final Model
 
-*(coming soon)*
+*(coming next week)*
 
 ---
 
 ## Fairness Analysis
-*(coming soon)*
+*(coming next week)*
