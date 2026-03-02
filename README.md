@@ -1,3 +1,155 @@
 # What Makes a 5-Star Recipe?
 
 **By:** Mahir Oza, Xiaolong Yu, Donald Yu, Ali Karim
+
+---
+
+## Introduction
+
+This project focuses on a comprehensive dataset of recipes and ratings derived from Food.com, which was originally scraped by researchers for a study on recommender systems. We picked this dataset because food is definitely a common shared interest among all our group members, and we're genuinely curious and excited to explore the data and discover meaningful insights.
+
+The data consists of two primary CSV files: `RAW_recipes.csv`, which details recipe attributes such as cooking time, nutritional information, and preparation steps, and `RAW_interactions.csv`, which contains user-submitted reviews and ratings. For the purpose of this analysis, we are utilizing a subset of the original data that includes only recipes and reviews posted since 2008.
+
+Our central question is: **What recipe characteristics predict whether a recipe will receive a high rating?** Understanding these trends is relevant not only for home cooks looking to optimize their meal planning but also for recipe platforms looking to improve their recommendation systems.
+
+The dataset contains **83,782 recipes** with the following relevant columns:
+
+| Column | Description |
+|---|---|
+| `name` | Recipe name |
+| `minutes` | Cooking time in minutes |
+| `n_steps` | Number of preparation steps |
+| `n_ingredients` | Number of ingredients |
+| `calories` | Total calories per serving |
+| `protein` | Protein content (PDV) |
+| `sugar` | Sugar content (PDV) |
+| `total_fat` | Total fat content (PDV) |
+| `average_rating` | Mean of all user ratings (1.0–5.0) |
+
+---
+
+## Data Cleaning and Exploratory Data Analysis
+
+### Data Cleaning
+
+We performed several cleaning steps to prepare the data for analysis:
+
+1. **Merged the two datasets** using a left join on recipe ID, so each recipe is matched with its user ratings.
+2. **Replaced ratings of 0 with NaN** because a rating of 0 does not exist on Food.com's 1–5 scale — these represent missing ratings, not actual zero-star reviews.
+3. **Computed average ratings** by grouping all ratings per recipe and taking the mean, then merging this back into the recipes dataframe.
+4. **Parsed the nutrition column** from a string representation of a list into seven individual numeric columns: calories, total_fat, sugar, sodium, protein, saturated_fat, and carbohydrates.
+5. **Cleaned cooking time** by replacing 0-minute values with NaN (a recipe can't take 0 minutes), removing recipes over 1440 minutes (24 hours) as likely data entry errors, and capping extreme outliers at the 99th percentile.
+6. **Parsed list columns** (tags, ingredients, steps) from strings into actual Python lists, and created count columns (num_tags, num_ingredients, num_steps).
+7. **Extracted date features** (submitted_year, submitted_month) from the submission date.
+
+Here is the head of our cleaned DataFrame:
+
+| name | minutes | n_steps | n_ingredients | calories | protein | sugar | total_fat | average_rating |
+|---|---|---|---|---|---|---|---|---|
+| 1 brownies in the world best ever | 40.0 | 10 | 9 | 138.4 | 3.0 | 50.0 | 10.0 | 4.0 |
+| 1 in canada chocolate chip cookies | 45.0 | 12 | 11 | 595.1 | 13.0 | 211.0 | 46.0 | 5.0 |
+| 412 broccoli casserole | 40.0 | 6 | 9 | 194.8 | 22.0 | 6.0 | 20.0 | 5.0 |
+| millionaire pound cake | 120.0 | 7 | 7 | 878.3 | 20.0 | 326.0 | 63.0 | 5.0 |
+| 2000 meatloaf | 90.0 | 17 | 13 | 267.0 | 29.0 | 12.0 | 30.0 | 5.0 |
+
+### Univariate Analysis
+
+<iframe
+  src="assets/rating-distribution.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+The distribution of average recipe ratings is heavily left-skewed, with the vast majority of recipes rated between 4 and 5 stars. This suggests that users tend to only rate recipes they enjoyed, creating a strong selection bias in the data.
+
+### Bivariate Analysis
+
+<iframe
+  src="assets/ingredients-vs-rating.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+This box plot shows the relationship between the number of ingredients and average rating. The median rating stays near 5.0 across all ingredient counts, but simpler recipes (fewer ingredients) tend to have more variability, with more low-rating outliers. Recipes with 20+ ingredients have tighter, more consistently high ratings.
+
+### Interesting Aggregates
+
+We grouped recipes by calorie level (Low, Medium, High) and step complexity (Few, Medium, Many) to examine how these factors interact:
+
+| calorie_level | Few Steps | Medium Steps | Many Steps |
+|---|---|---|---|
+| Low | 4.63 | 4.63 | 4.60 |
+| Medium | 4.61 | 4.62 | 4.60 |
+| High | 4.59 | 4.58 | 4.53 |
+
+The table shows that average ratings are remarkably consistent across groups, though high-calorie recipes with many steps tend to receive slightly lower ratings.
+
+---
+
+## Assessment of Missingness
+
+### NMAR Analysis
+
+We believe the `average_rating` column is likely **NMAR** (Not Missing At Random). A recipe has a missing average rating when no users have rated it, and people tend to rate recipes they have actually made. More obscure or complex recipes may receive fewer ratings simply because fewer people attempt them — the missingness is related to the recipe's inherent appeal or accessibility, which is not fully captured by other columns in the dataset. If we had data on recipe page views or the number of times a recipe was saved, this could help explain the missingness and potentially make it MAR.
+
+### Missingness Dependency
+
+We analyzed whether the missingness of `average_rating` depends on other columns using permutation tests.
+
+**Depends on `n_steps`:** We found that the missingness of average_rating does depend on the number of steps (p < 0.05). Recipes with missing ratings tend to have a different distribution of step counts compared to rated recipes.
+
+**Does not depend on `calories`:** The missingness of average_rating does not significantly depend on calorie count (p > 0.05), suggesting that whether a recipe gets rated is not related to its calorie content.
+
+---
+
+## Hypothesis Testing
+
+**Null Hypothesis:** The average rating of recipes with many ingredients (above the median) is the same as the average rating of recipes with few ingredients (at or below the median). Any observed difference is due to random chance.
+
+**Alternative Hypothesis:** The average rating of recipes with many ingredients is different from the average rating of recipes with few ingredients.
+
+**Test Statistic:** Absolute difference in group means.
+
+**Significance Level:** α = 0.05
+
+We used a permutation test with 10,000 shuffles because our rating data is heavily skewed and does not follow a normal distribution, making a t-test inappropriate.
+
+**Result:** We obtained a p-value of **0.3731**, which exceeds our significance level of 0.05. Therefore, we **fail to reject the null hypothesis** — there is not enough evidence to conclude that the number of ingredients has a significant effect on average recipe ratings.
+
+---
+
+## Framing a Prediction Problem
+
+We are predicting the **average rating** of a recipe. This is a **regression** problem because average rating is a continuous variable ranging from 1.0 to 5.0.
+
+We chose `average_rating` as our response variable because understanding what recipe characteristics lead to higher ratings is valuable both for recipe platforms looking to improve recommendations and for home cooks trying to create crowd-pleasing recipes.
+
+**Evaluation Metric:** We are using **RMSE** (Root Mean Squared Error) because it is interpretable in rating points and penalizes large prediction errors more heavily than MAE, which is important when predicting ratings on a 1-to-5 scale.
+
+**Time of Prediction:** At the time a recipe is first posted, we know its attributes (cooking time, steps, ingredients, nutritional info, tags) but have no user feedback yet. Therefore, we only use features available at the time of submission — minutes, n_steps, n_ingredients, calories, protein, sugar, total_fat, and other recipe characteristics — and exclude any user interaction data like ratings or reviews.
+
+---
+
+## Baseline Model
+
+Our baseline model is a **Linear Regression** using seven quantitative features: `calories`, `n_ingredients`, `n_steps`, `minutes`, `protein`, `sugar`, and `total_fat`. All features are numerical, so no ordinal or nominal encodings were needed. We scaled all features using `StandardScaler` and implemented the model in a single sklearn `Pipeline`.
+
+**Performance:**
+- RMSE: **0.6444**
+- R²: **0.0015**
+
+We do not consider this a good model. The R² of 0.0015 means the model explains less than 1% of the variance in ratings. This is largely because the rating distribution is so heavily skewed toward 5 stars that the model essentially learns to predict around 4.7 for every recipe. Linear Regression assumes a linear relationship between features and ratings, which is too simplistic to capture the complex patterns in recipe data. The purpose of this baseline is to establish a benchmark that our final model can improve upon.
+
+---
+
+## Final Model
+
+*(Coming soon)*
+
+---
+
+## Fairness Analysis
+
+*(Coming soon)*
