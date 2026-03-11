@@ -166,4 +166,20 @@ The scatter plot compares the predicted ratings from our final model with the ac
 ---
 
 ## Fairness Analysis
-*(coming next week)*
+
+To evaluate fairness, we examined whether our final model performs differently for recipes with **few ingredients** versus recipes with **many ingredients**. We chose this grouping because the number of ingredients is a natural measure of recipe complexity and was central to our earlier hypothesis testing. Recipes were split based on the **median number of ingredients** in the test set, creating two groups: recipes with ingredient counts at or below the median and recipes with ingredient counts above the median. We then computed the model’s prediction error using **RMSE** separately for each group.
+
+**Performance by group:**
+- RMSE (Few Ingredients): **0.6417**
+- RMSE (Many Ingredients): **0.6239**
+
+The RMSE values for both groups are very similar, with only a small difference between them. This indicates that the model’s predictive accuracy is fairly consistent across recipes of different complexity levels. In other words, the model does not appear to systematically perform worse for simpler recipes or more complex recipes. Because the prediction errors are nearly the same, we conclude that the model behaves **similarly across both groups**, suggesting that it does not introduce meaningful bias related to recipe complexity.
+
+<iframe 
+  src="assets/fairness-rmse.html" 
+  width="800" 
+  height="600" 
+  frameborder="0">
+</iframe>
+
+The bar chart above shows the RMSE of the model for recipes with few ingredients and recipes with many ingredients. Since both values are very close, the visualization reinforces our conclusion that the model performs similarly across both groups. This suggests that the model’s prediction error is relatively balanced with respect to recipe complexity, which supports the fairness of the model under this grouping.
