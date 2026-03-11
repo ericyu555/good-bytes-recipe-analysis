@@ -154,6 +154,15 @@ Our final model is a **HistGradientBoostingRegressor** using the same seven quan
 
 This model performs better than our baseline model, though the improvement is still modest. The lower RMSE shows that the final model makes slightly more accurate predictions, and the increase in R² means it explains more variation in recipe ratings than the baseline. We believe this improvement comes from the model’s ability to capture more complex patterns and interactions in the data than Linear Regression can. However, performance remains limited because recipe ratings are heavily skewed toward 4 and 5 stars, leaving relatively little variation for the model to learn from.
 
+<iframe 
+  src="assets/predicted-vs-actual.html" 
+  width="800" 
+  height="600" 
+  frameborder="0" 
+></iframe>
+
+The scatter plot compares the predicted ratings from our final model with the actual average ratings of recipes in the test set. Each point represents a recipe, and the red dashed line shows the ideal prediction, where the predicted rating would exactly match the true rating. Most points cluster between ratings of 4 and 5, reflecting the strong skew in the dataset toward highly rated recipes. Because the majority of recipes receive very high ratings, the model has limited variation to learn from, which helps explain why improvements in RMSE are relatively small even when using a more flexible model.
+
 ---
 
 ## Fairness Analysis
