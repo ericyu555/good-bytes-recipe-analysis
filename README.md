@@ -146,7 +146,13 @@ We do not consider this a good model. The R² of 0.0015 means the model explains
 
 ## Final Model
 
-*(coming next week)*
+Our final model is a **HistGradientBoostingRegressor** using the same seven quantitative features as the baseline model: `calories`, `n_ingredients`, `n_steps`, `minutes`, `protein`, `sugar`, and `total_fat`. We kept the same core recipe information from the baseline, but improved the model by creating several simple engineered features, including `calories_per_ingredient`, `minutes_per_step`, `ingredients_per_step`, and nutrition-based ratio features such as protein, sugar, and fat relative to calories. We also applied log transformations to variables like calories, minutes, ingredients, and steps to reduce the effect of extreme values. These feature engineering steps were incorporated into the modeling process, and we used `GridSearchCV` to test multiple parameter settings and choose the model that minimized prediction error.
+
+**Performance:**
+- RMSE: **0.6346**
+- R²: **0.0039**
+
+This model performs better than our baseline model, though the improvement is still modest. The lower RMSE shows that the final model makes slightly more accurate predictions, and the increase in R² means it explains more variation in recipe ratings than the baseline. We believe this improvement comes from the model’s ability to capture more complex patterns and interactions in the data than Linear Regression can. However, performance remains limited because recipe ratings are heavily skewed toward 4 and 5 stars, leaving relatively little variation for the model to learn from.
 
 ---
 
