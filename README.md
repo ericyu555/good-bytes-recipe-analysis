@@ -96,11 +96,11 @@ We believe the `average_rating` column is likely **NMAR** (Not Missing At Random
 
 ### Missingness Dependency
 
-We analyzed whether the missingness of `average_rating` depends on other columns using permutation tests.
+We analyzed whether the missingness of `average_rating` depends on other columns using permutation tests with 10,000 shuffles at α = 0.05.
 
-**Depends on `n_steps`:** We found that the missingness of average_rating does depend on the number of steps (p < 0.05). Recipes with missing ratings tend to have a different distribution of step counts compared to rated recipes.
+**Depends on `n_steps` (p = 0.0000):** The missingness of average_rating does depend on the number of steps. Recipes with missing ratings tend to have more steps on average (observed difference of 1.4930 steps). This makes sense because more complex recipes with many steps may attract fewer users to try and rate them.
 
-**Does not depend on `calories`:** The missingness of average_rating does not significantly depend on calorie count (p > 0.05), suggesting that whether a recipe gets rated is not related to its calorie content.
+**Does not depend on `sodium` (p = 0.8785):** The missingness of average_rating does not significantly depend on sodium content. This suggests that a recipe's sodium level has no meaningful relationship with whether it gets rated or not.
 
 ---
 
@@ -152,13 +152,13 @@ Our final model is a **HistGradientBoostingRegressor** using the same seven quan
 - RMSE: **0.6346**
 - R²: **0.0039**
 
-This model performs better than our baseline model, though the improvement is still modest. The lower RMSE shows that the final model makes slightly more accurate predictions, and the increase in R² means it explains more variation in recipe ratings than the baseline. We believe this improvement comes from the model’s ability to capture more complex patterns and interactions in the data than Linear Regression can. However, performance remains limited because recipe ratings are heavily skewed toward 4 and 5 stars, leaving relatively little variation for the model to learn from.
+This model performs better than our baseline model, though the improvement is still modest. The lower RMSE shows that the final model makes slightly more accurate predictions, and the increase in R² means it explains more variation in recipe ratings than the baseline. We believe this improvement comes from the model's ability to capture more complex patterns and interactions in the data than Linear Regression can. However, performance remains limited because recipe ratings are heavily skewed toward 4 and 5 stars, leaving relatively little variation for the model to learn from.
 
-<iframe 
-  src="assets/predicted-vs-actual.html" 
-  width="800" 
-  height="600" 
-  frameborder="0" 
+<iframe
+  src="assets/predicted-vs-actual.html"
+  width="800"
+  height="600"
+  frameborder="0"
 ></iframe>
 
 The scatter plot compares the predicted ratings from our final model with the actual average ratings of recipes in the test set. Each point represents a recipe, and the red dashed line shows the ideal prediction, where the predicted rating would exactly match the true rating. Most points cluster between ratings of 4 and 5, reflecting the strong skew in the dataset toward highly rated recipes. Because the majority of recipes receive very high ratings, the model has limited variation to learn from, which helps explain why improvements in RMSE are relatively small even when using a more flexible model.
@@ -181,7 +181,7 @@ The difference in RMSE between the two groups was small, indicating that the mod
   src="assets/fairness-rmse.html"
   width="800"
   height="600"
-  frameborder="0">
-</iframe>
+  frameborder="0"
+></iframe>
 
 The chart above shows the prediction error of the model for recipes with few ingredients and recipes with many ingredients. Because the RMSE values are very close, the visualization supports our conclusion that the model behaves similarly across both groups.
