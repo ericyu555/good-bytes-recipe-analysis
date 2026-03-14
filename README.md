@@ -35,7 +35,7 @@ The dataset contains **83,782 recipes** with the following relevant columns:
 We performed several cleaning steps to prepare the data for analysis:
 
 1. **Merged the two datasets** using a left join on recipe ID, so each recipe is matched with its user ratings.
-2. **Replaced ratings of 0 with NaN** because a rating of 0 does not exist on Food.com's 1–5 scale — these represent missing ratings, not actual zero-star reviews.
+2. **Replaced ratings of 0 with NaN** because a rating of 0 does not exist on Food.com's 1–5 scale, these represent missing ratings, not actual zero-star reviews.
 3. **Computed average ratings** by grouping all ratings per recipe and taking the mean, then merging this back into the recipes dataframe.
 4. **Parsed the nutrition column** from a string representation of a list into seven individual numeric columns: calories, total_fat, sugar, sodium, protein, saturated_fat, and carbohydrates.
 5. **Cleaned cooking time** by replacing 0-minute values with NaN (a recipe can't take 0 minutes), removing recipes over 1440 minutes (24 hours) as likely data entry errors, and capping extreme outliers at the 99th percentile.
