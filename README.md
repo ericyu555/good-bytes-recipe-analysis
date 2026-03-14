@@ -171,7 +171,7 @@ We tested three different approaches to improve on the baseline, exploring both 
 | HistGradientBoosting | 0.6346 | 0.0039 | Numeric + ratio/log features |
 | **TF-IDF + Ridge** | **0.6285** | **0.0230** | **Text (20K words) + numeric** |
 
-We selected **TF-IDF + Ridge Regression** as our final model because it achieved the best performance on both RMSE and R^2. We combined all available text features — recipe names, descriptions, tags, and ingredient lists — into a single text field per recipe, then converted them into 20,000 numerical features using TF-IDF vectorization. These text features were combined with the same 7 scaled numeric features from the baseline and trained with Ridge Regression, using GridSearchCV with 5-fold cross-validation to tune the regularization parameter.
+We selected **TF-IDF + Ridge Regression** as our final model because it achieved the best performance on both RMSE and R^2. We combined all available text features, 'recipe names', 'descriptions', 'tags', and 'ingredient lists'  into a single text field per recipe, then converted them into 20,000 numerical features using TF-IDF vectorization. These text features were combined with the same 7 scaled numeric features from the baseline and trained with Ridge Regression, using GridSearchCV with 5fold cross-validation to tune the regularization parameter.
 
 **Performance:**
 - RMSE: **0.6285**
