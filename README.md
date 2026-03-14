@@ -177,7 +177,7 @@ We selected **TF-IDF + Ridge Regression** as our final model because it achieved
 - RMSE: **0.6285**
 - R^2: **0.0230**
 
-The key insight is that text features capture meaningful patterns about what makes users rate recipes highly that numerical features alone cannot. Words like "easy," "chocolate," or "healthy" provide signal about user preferences. The R^2 increased from 0.0015 to 0.0230, meaning the final model explains about 15 times more variation in ratings than the baseline. However, performance remains limited overall because recipe ratings are heavily skewed toward 4 and 5 stars, leaving relatively little variation for any model to learn from.
+The key insight is that text features capture meaningful patterns about what makes users rate recipes highly that numerical features alone cannot. The R^2 increased from 0.0015 to 0.0230, meaning the final model explains about 15 times more variation in ratings than the baseline. However, performance remains limited overall because recipe ratings are heavily skewed toward 4 and 5 stars, leaving relatively little variation for any model to learn from.
 
 <iframe
   src="assets/predicted-vs-actual.html"
