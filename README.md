@@ -138,9 +138,9 @@ Our baseline model is a **Linear Regression** using seven quantitative features:
 
 **Performance:**
 - RMSE: **0.6444**
-- R²: **0.0015**
+- R^2: **0.0015**
 
-We do not consider this a good model. The R² of 0.0015 means the model explains less than 1% of the variance in ratings. This is largely because the rating distribution is so heavily skewed toward 5 stars that the model essentially learns to predict around 4.7 for every recipe. Linear Regression assumes a linear relationship between features and ratings, which is too simplistic to capture the complex patterns in recipe data. The purpose of this baseline is to establish a benchmark that our final model can improve upon.
+We do not consider this a good model. The R^2 of 0.0015 means the model explains less than 1% of the variance in ratings. This is largely because the rating distribution is so heavily skewed toward 5 stars that the model essentially learns to predict around 4.7 for every recipe. Linear Regression assumes a linear relationship between features and ratings, which is too simplistic to capture the complex patterns in recipe data. The purpose of this baseline is to establish a benchmark that our final model can improve upon.
 
 ---
 
@@ -150,20 +150,20 @@ We tested three different approaches to improve on the baseline, exploring both 
 
 ### Model Comparison
 
-| Model | RMSE | R² | Key Approach |
+| Model | RMSE | R^2 | Key Approach |
 |---|---|---|---|
 | Baseline (Linear Regression) | 0.6444 | 0.0015 | 7 numeric features |
 | Random Forest | 0.6434 | 0.0048 | Numeric + engineered binary features |
 | HistGradientBoosting | 0.6346 | 0.0039 | Numeric + ratio/log features |
 | **TF-IDF + Ridge** | **0.6285** | **0.0230** | **Text (20K words) + numeric** |
 
-We selected **TF-IDF + Ridge Regression** as our final model because it achieved the best performance on both RMSE and R². We combined all available text features — recipe names, descriptions, tags, and ingredient lists — into a single text field per recipe, then converted them into 20,000 numerical features using TF-IDF vectorization. These text features were combined with the same 7 scaled numeric features from the baseline and trained with Ridge Regression, using GridSearchCV with 5-fold cross-validation to tune the regularization parameter.
+We selected **TF-IDF + Ridge Regression** as our final model because it achieved the best performance on both RMSE and R^2. We combined all available text features — recipe names, descriptions, tags, and ingredient lists — into a single text field per recipe, then converted them into 20,000 numerical features using TF-IDF vectorization. These text features were combined with the same 7 scaled numeric features from the baseline and trained with Ridge Regression, using GridSearchCV with 5-fold cross-validation to tune the regularization parameter.
 
 **Performance:**
 - RMSE: **0.6285**
-- R²: **0.0230**
+- R^2: **0.0230**
 
-The key insight is that text features capture meaningful patterns about what makes users rate recipes highly that numerical features alone cannot. Words like "easy," "chocolate," or "healthy" provide signal about user preferences. The R² increased from 0.0015 to 0.0230, meaning the final model explains about 15 times more variation in ratings than the baseline. However, performance remains limited overall because recipe ratings are heavily skewed toward 4 and 5 stars, leaving relatively little variation for any model to learn from.
+The key insight is that text features capture meaningful patterns about what makes users rate recipes highly that numerical features alone cannot. Words like "easy," "chocolate," or "healthy" provide signal about user preferences. The R^2 increased from 0.0015 to 0.0230, meaning the final model explains about 15 times more variation in ratings than the baseline. However, performance remains limited overall because recipe ratings are heavily skewed toward 4 and 5 stars, leaving relatively little variation for any model to learn from.
 
 <iframe
   src="assets/predicted-vs-actual.html"
