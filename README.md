@@ -92,7 +92,7 @@ The table shows that average ratings are remarkably consistent across groups, wi
 
 ### NMAR Analysis
 
-We believe the `average_rating` column is likely **NMAR** (Not Missing At Random). A recipe has a missing average rating when no users have rated it, and people tend to rate recipes they have actually made. More obscure or complex recipes may receive fewer ratings simply because fewer people attempt them — the missingness is related to the recipe's inherent appeal or accessibility, which is not fully captured by other columns in the dataset. If we had data on recipe page views or the number of times a recipe was saved, this could help explain the missingness and potentially make it MAR.
+We believe the `average_rating` column is likely **NMAR** (Not Missing At Random). A recipe has a missing average rating when no users have rated it, and people tend to rate recipes they have actually made. More complex recipes may receive fewer ratings simply because fewer people attempt them, so whether a recipe gets rated depends on how popular or approachable it is, which is not captured by other columns in the dataset. If we had data on recipe page views or the number of times a recipe was saved, this could help explain the missingness and potentially make it MAR.
 
 ### Missingness Dependency
 
