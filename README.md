@@ -200,11 +200,6 @@ Recipes were split based on the **median number of ingredients** in the test set
 - RMSE (Few Ingredients): **0.6345**
 - RMSE (Many Ingredients): **0.6205**
 
-<iframe
-  src="assets/fairness-rmse.html"
-  width="800"
-  height="600"
-  frameborder="0"
-></iframe>
+
 
 The RMSE for recipes with few ingredients (0.6345) and many ingredients (0.6205) are very close, with a difference of only 0.0140. This indicates that our TF-IDF + Ridge model performs similarly across recipes of different complexity levels and does not systematically favor simpler or more complex recipes. The model is slightly better at predicting ratings for recipes with many ingredients, possibly because complex recipes tend to have more descriptive text for TF-IDF to work with. Overall, the small gap confirms the model behaves fairly across both groups.
