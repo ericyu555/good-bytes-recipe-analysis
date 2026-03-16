@@ -10,7 +10,7 @@ This project focuses on a comprehensive dataset of recipes and ratings derived f
 
 The data consists of two primary CSV files: `RAW_recipes.csv`, which details recipe attributes such as cooking time, nutritional information, and preparation steps, and `RAW_interactions.csv`, which contains user-submitted reviews and ratings. For the purpose of this analysis, we are utilizing a subset of the original data that includes only recipes and reviews posted since 2008.
 
-Our central question is: **What recipe characteristics predict whether a recipe will receive a high rating?** Understanding these trends is relevant not only for home cooks looking to optimize their meal planning but also for recipe platforms looking to improve their recommendation systems.
+Our central question is: **What types of recipes tend to have higher average ratings, and can we predict a recipe's rating based on its characteristics?** Understanding these trends is relevant not only for home cooks looking to optimize their meal planning but also for recipe platforms looking to improve their recommendation systems.
 
 The dataset contains **83,782 recipes** with the following relevant columns:
 
