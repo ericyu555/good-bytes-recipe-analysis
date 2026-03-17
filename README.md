@@ -92,7 +92,7 @@ The table shows that average ratings are remarkably consistent across groups, wi
 
 ### NMAR Analysis
 
-We believe the `average_rating` column is likely **NMAR** (Not Missing At Random). A recipe has a missing average rating when no users have rated it, and people tend to rate recipes they have actually made. More obscure or complex recipes may receive fewer ratings simply because fewer people attempt them — so whether a recipe gets rated depends on how popular or approachable it is, which is not captured by other columns in the dataset. If we had data on recipe page views or the number of times a recipe was saved, this could help explain the missingness and potentially make it MAR.
+We believe the `average_rating` column is likely **NMAR** (Not Missing At Random). A recipe has a missing average rating when no users have rated it, and people tend to rate recipes they have actually made. Morecomplex recipes may receive fewer ratings simply because fewer people attempt them, so whether a recipe gets rated depends on how popular or approachable it is, which is not captured by other columns in the dataset. If we had data on recipe page views or the number of times a recipe was saved, this could help explain the missingness and potentially make it MAR.
 
 ### Missingness Dependency
 
@@ -130,7 +130,7 @@ We analyzed whether the missingness of `average_rating` depends on other columns
 
 We used a permutation test with 10,000 shuffles because our rating data is heavily skewed and does not follow a normal distribution, making a t-test inappropriate.
 
-**Result:** We obtained a p-value of **0.3731**, which exceeds our significance level of 0.05. Therefore, we **fail to reject the null hypothesis** — there is not enough evidence to conclude that the number of ingredients has a significant effect on average recipe ratings.
+**Result:** We obtained a p-value of **0.3731**, which exceeds our significance level of 0.05. Therefore, we **fail to reject the null hypothesis**, there is not enough evidence to conclude that the number of ingredients has a significant effect on average recipe ratings.
 
 ---
 
@@ -142,7 +142,7 @@ We chose `average_rating` as our response variable because understanding what re
 
 **Evaluation Metric:** We are using **RMSE** (Root Mean Squared Error) because it is interpretable in rating points and penalizes large prediction errors more heavily than MAE, which is important when predicting ratings on a 1-to-5 scale.
 
-**Time of Prediction:** At the time a recipe is first posted, we know its attributes (cooking time, steps, ingredients, nutritional info, tags) but have no user feedback yet. Therefore, we only use features available at the time of submission — minutes, n_steps, n_ingredients, calories, protein, sugar, total_fat, and other recipe characteristics — and exclude any user interaction data like ratings or reviews.
+**Time of Prediction:** At the time a recipe is first posted, we know its attributes (cooking time, steps, ingredients, nutritional info, tags) but have no user feedback yet. Therefore, we only use features available at the time of submission, including: minutes, n_steps, n_ingredients, calories, protein, sugar, total_fat, and other recipe characteristics, and exclude any user interaction data like ratings or reviews.
 
 ---
 
@@ -171,7 +171,7 @@ We tested three different approaches to improve on the baseline, exploring both 
 | HistGradientBoosting | 0.6346 | 0.0039 | Numeric + ratio/log features |
 | **TF-IDF + Ridge** | **0.6285** | **0.0230** | **Text (20K words) + numeric** |
 
-We selected **TF-IDF + Ridge Regression** as our final model because it achieved the best performance on both RMSE and R^2. We combined all available text features — recipe names, descriptions, tags, and ingredient lists — into a single text field per recipe, then converted them into 20,000 numerical features using TF-IDF vectorization. These text features were combined with the same 7 scaled numeric features from the baseline and trained with Ridge Regression, using GridSearchCV with 5-fold cross-validation to tune the regularization parameter.
+We selected **TF-IDF + Ridge Regression** as our final model because it achieved the best performance on both RMSE and R^2. We combined all available text features, including: recipe names, descriptions, tags, and ingredient lists, into a single text field per recipe, then converted them into 20000 numerical features using TF-IDF vectorization. These text features were combined with the same 7 scaled numeric features from the baseline and trained with Ridge Regression, using GridSearchCV with 5-fold cross-validation to tune the regularization parameter.
 
 **Performance:**
 - RMSE: **0.6285**
