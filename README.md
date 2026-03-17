@@ -215,4 +215,4 @@ Recipes were split based on the **median number of ingredients** in the test set
   frameborder="0"
 ></iframe>
 
-The RMSE for recipes with few ingredients (0.6345) and many ingredients (0.6205) are very close, with a difference of only 0.0140. Our permutation test produced a p-value of **0.1914**, which exceeds our significance level of 0.05. Therefore, we **fail to reject the null hypothesis** — there is not enough evidence to conclude that the model performs unfairly across recipe complexity levels. The model behaves similarly for both simpler and more complex recipes.
+The RMSE for recipes with few ingredients (0.6345) and many ingredients (0.6205) are very close, with a difference of only 0.0140. Our permutation test produced a p-value of **0.1914**, which exceeds our significance level of 0.05. Therefore, we **fail to reject the null hypothesis**, there is not enough evidence to conclude that the model performs unfairly across recipe complexity levels. The model behaves similarly for both simpler and more complex recipes.
