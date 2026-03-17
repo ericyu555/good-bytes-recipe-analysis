@@ -140,7 +140,7 @@ We are predicting the **average rating** of a recipe. This is a **regression** p
 
 We chose `average_rating` as our response variable because understanding what recipe characteristics lead to higher ratings is valuable both for recipe platforms looking to improve recommendations and for home cooks trying to create crowd-pleasing recipes.
 
-**Evaluation Metric:** We are using **RMSE** (Root Mean Squared Error) because it is interpretable in rating points and penalizes large prediction errors more heavily than MAE, which is important when predicting ratings on a 1-to-5 scale.
+**Evaluation Metric:** We are using **RMSE** (Root Mean Squared Error) because it is interpretable in rating points and penalizes large prediction errors more heavily than MAE, which is important when predicting ratings on a 1 to 5 scale.
 
 **Time of Prediction:** At the time a recipe is first posted, we know its attributes (cooking time, steps, ingredients, nutritional info, tags) but have no user feedback yet. Therefore, we only use features available at the time of submission, including: minutes, n_steps, n_ingredients, calories, protein, sugar, total_fat, and other recipe characteristics, and exclude any user interaction data like ratings or reviews.
 
@@ -160,7 +160,7 @@ We do not consider this a good model. The R^2 of 0.0015 means the model explains
 
 ## Final Model
 
-We tested three different approaches to improve on the baseline, exploring both numeric-only models and text-based models.
+We tested three different approaches to improve on the baseline, exploring both numeric only models and text based models.
 
 ### Model Comparison
 
