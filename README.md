@@ -92,7 +92,7 @@ The table shows that average ratings are remarkably consistent across groups, wi
 
 ### NMAR Analysis
 
-We believe the `average_rating` column is likely **NMAR** (Not Missing At Random). A recipe has a missing average rating when no users have rated it, and people tend to rate recipes they have actually made. More obscure or complex recipes may receive fewer ratings simply because fewer people attempt them, so whether a recipe gets rated depends on how popular or approachable it is, which is not captured by other columns in the dataset. If we had data on recipe page views or the number of times a recipe was saved, this could help explain the missingness and potentially make it MAR.
+We believe the `average_rating` column is likely **NMAR** (Not Missing At Random). A recipe has a missing average rating when no users have rated it, and people tend to rate recipes they have actually made. More obscure or complex recipes may receive fewer ratings simply because fewer people attempt them — so whether a recipe gets rated depends on how popular or approachable it is, which is not captured by other columns in the dataset. If we had data on recipe page views or the number of times a recipe was saved, this could help explain the missingness and potentially make it MAR.
 
 ### Missingness Dependency
 
@@ -194,7 +194,15 @@ The scatter plot compares what our model predicted versus the actual ratings for
 
 To evaluate fairness, we examined whether our final model (TF-IDF + Ridge) performed differently for recipes with **many ingredients** versus recipes with **few ingredients**. We chose this grouping because the number of ingredients is a natural measure of recipe complexity and was central to our earlier hypothesis testing.
 
-Recipes were split based on the **median number of ingredients** in the test set, and RMSE was computed separately for each group.
+**Null Hypothesis:** Our model is fair. Its RMSE for recipes with few ingredients and recipes with many ingredients are roughly the same, and any differences are due to random chance.
+
+**Alternative Hypothesis:** Our model is unfair. Its RMSE for recipes with few ingredients is higher than its RMSE for recipes with many ingredients.
+
+**Test Statistic:** Difference in RMSE (few ingredients - many ingredients)
+
+**Significance Level:** α = 0.05
+
+Recipes were split based on the **median number of ingredients** in the test set, and RMSE was computed separately for each group. We then ran a permutation test with 10,000 shuffles to determine if the observed difference was statistically significant.
 
 **Performance by group:**
 - RMSE (Few Ingredients): **0.6345**
@@ -207,4 +215,4 @@ Recipes were split based on the **median number of ingredients** in the test set
   frameborder="0"
 ></iframe>
 
-The RMSE for recipes with few ingredients (0.6345) and many ingredients (0.6205) are very close, with a difference of only 0.0140. This indicates that our TF-IDF + Ridge model performs similarly across recipes of different complexity levels and does not systematically favor simpler or more complex recipes. The model is slightly better at predicting ratings for recipes with many ingredients, possibly because complex recipes tend to have more descriptive text for TF-IDF to work with. Overall, the small gap confirms the model behaves fairly across both groups.
+The RMSE for recipes with few ingredients (0.6345) and many ingredients (0.6205) are very close, with a difference of only 0.0140. Our permutation test produced a p-value of **0.1914**, which exceeds our significance level of 0.05. Therefore, we **fail to reject the null hypothesis** — there is not enough evidence to conclude that the model performs unfairly across recipe complexity levels. The model behaves similarly for both simpler and more complex recipes.
